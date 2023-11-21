@@ -58,11 +58,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ env.DOCKERHUB_USERNAME }}
-        password: ${{ env.DOCKERHUB_PASS }}
+    #- name: Login to Docker Hub
+    #  #uses: docker/login-action@v1
+    #  with:
+    #    username: ${{ env.DOCKERHUB_USERNAME }}
+    #    password: ${{ env.DOCKERHUB_PASS }}
     - name: Set permissions for private key
       run: |
         echo "${{ env.AWS_LOG_KEY}}" > assign5sbr.pem
