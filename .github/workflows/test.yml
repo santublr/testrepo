@@ -65,7 +65,7 @@ jobs:
     #    password: ${{ env.DOCKERHUB_PASS }}
     - name: Set permissions for private key
       run: |
-        echo "${{ env.AWS_LOG_KEY}}" > assign5sbr.pem
+        echo "${{ secrets.AWS_LOG_KEY}}" > assign5sbr.pem
         chmod 600 assign5sbr.pem
     - name: Pull Docker image
       run: |
