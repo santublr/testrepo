@@ -51,3 +51,29 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/testsanbr:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ env.DOCKERHUB_USERNAME }}
+        password: ${{ env.DOCKERHUB_PASS }}
+    - name: Set permissions for private key
+      run: |
+        echo "${{ env.AWS_LOG_KEY}}" > assign5sbr.pem
+        chmod 600 assign5sbr.pem
+    - name: Pull Docker image
+      run: |
+        ssh -o StrictHostKeyChecking=no -i assign5sbr.pem ec2-user@ec2-16-171-101-118.eu-north-1.compute.amazonaws.com 'sudo docker pull santoshbr/testsanbr:latest'
+    - name: Stop running container
+      run: |
+        ssh -o StrictHostKeyChecking=no -i assign5sbr.pem ec2-user@ec2-16-171-101-118.eu-north-1.compute.amazonaws.com 'sudo docker stop cddemo || true'
+        ssh -o StrictHostKeyChecking=no -i assign5sbr.pem ec2-user@ec2-16-171-101-118.eu-north-1.compute.amazonaws.com 'sudo docker rm cddemo || true'
+    - name: Run new container
+      run: |
+        ssh -o StrictHostKeyChecking=no -i assign5sbr.pem ec2-user@ec2-16-171-101-118.eu-north-1.compute.amazonaws.com 'sudo docker run -d --name cddemo -p 80:3000 santoshbr/testsanbr:latest'
