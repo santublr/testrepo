@@ -29,6 +29,15 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
+      # Runs Docker build to take latest changes from main.py app
+      #- name: Run a one-line script
+      #  run: docker build assign5:latest .
+
+      # Pushes the image to public docker hub 
+      - name: Push the image to public docker
+        run: |
+	  echo docker_user ${{ DOCKER_LOGIN }}"
+
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
