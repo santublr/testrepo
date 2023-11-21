@@ -36,10 +36,18 @@ jobs:
       # Pushes the image to public docker hub 
       - name: Push the image to public docker
         run: |
-          echo "${{ env.DOCKER_PASS }}" | docker login --username santoshbr --password-stdin
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "${{ env.DOCKER_PASS }}" 
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/assign5:latest
