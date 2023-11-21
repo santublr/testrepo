@@ -50,4 +50,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/assign5:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/testsanbr:latest
