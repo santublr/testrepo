@@ -36,7 +36,7 @@ jobs:
       # Pushes the image to public docker hub 
       - name: Push the image to public docker
         run: |
-          echo docker_user "${{ env.DOCKER_LOGIN }}"
+          echo docker_user "${{ env.DOCKER_PASS }}" | docker login --username santoshbr --password-stdin
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
